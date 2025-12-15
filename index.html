@@ -49,8 +49,8 @@
             .bento-grid {
                 /* Define a 3-column grid */
                 grid-template-columns: repeat(3, 1fr);
-                /* Explicitly set rows for better control */
-                grid-template-rows: auto auto auto;
+                /* FIX: Expanded to 4 rows to fit the new Card 7 and Card 6 correctly */
+                grid-template-rows: auto auto auto auto; 
             }
 
             /* Card 1 (Profile): Large Box (2x2) */
@@ -82,6 +82,12 @@
                 grid-column: 2 / 3;
                 grid-row: 3 / 4;
             }
+            
+            /* NEW Card 7 (Reflection): Small Box (1x1) - Placed next to Card 5 */
+            .card-7 {
+                grid-column: 3 / 4;
+                grid-row: 3 / 4;
+            }
 
             /* Card 6 (Playlist): Wide Box (3x1) at the bottom */
             .card-6 {
@@ -91,7 +97,7 @@
         }
 
         /*
-        * 3. Card Styling
+        * 3. Card Styling & Theme Tweak (Hover)
         */
         .bento-card {
             background-color: var(--color-white);
@@ -103,6 +109,15 @@
             justify-content: space-between;
             overflow: hidden;
             min-height: 120px;
+            
+            /* Tweak: Transition for subtle zoom effect */
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out; 
+        }
+
+        /* Subtle Hover Effect */
+        .bento-card:hover {
+            transform: translateY(-2px) scale(1.01); /* Lift slightly and scale up 1% */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
         }
 
         /* Styling for larger cards */
@@ -164,10 +179,11 @@
             font-weight: 600;
             font-size: 1rem;
             transition: color 0.2s;
+            text-decoration: none;
         }
 
         .social-links a:hover {
-            color: #003366; /* Darker accent on hover */
+            color: #003366; 
         }
 
         /* Card 2: Location */
@@ -193,12 +209,14 @@
             border-bottom: none;
         }
 
-        /* Card 5: Hobby */
-        .hobby-content p {
-            font-size: 1.25rem;
-            font-weight: 600;
+        /* Card 5 & 7: Hobby/Reflection */
+        .hobby-content p, .reflection-content p {
+            font-size: 1rem;
+            font-weight: 500;
             color: var(--color-dark);
+            line-height: 1.4;
         }
+
 
         /* Card 6: Playlist */
         .playlist-content {
@@ -242,9 +260,9 @@
                 <div class="tagline">"Innovating food safety."</div>
             </div>
             <div class="social-links">
-                <a href="#">LinkedIn</a>
-                <a href="#">GitHub</a>
-                <a href="#">UMT Portal</a>
+                <a href="https://www.linkedin.com/in/Nurun Nadhirah">
+                <a href=”https://github.com/s79391-web>GitHub</a>
+                <a href="#" target="_blank">UMT Portal</a>
             </div>
         </div>
 
@@ -252,7 +270,7 @@
             <header class="card-header">Current Location</header>
             <div class="location-content">
                 <div class="card-title">UMT, Kuala Nerus</div>
-                <p class="time">10:24 AM</p>
+                <p class="time">10:45 AM</p>
             </div>
         </div>
 
@@ -281,18 +299,215 @@
             </div>
         </div>
 
+        <div class="bento-card card-7">
+            <header class="card-header">Reflections</header>
+            <div class="reflection-content">
+                <div class="card-title" style="font-size: 1.15rem;">Why Food Tech Matters in Malaysia</div>
+                <p>Sustainable food security is crucial for our future. By optimizing local processing methods, we can reduce waste and improve nutrition.</p>
+            </div>
+        </div>
+
         <div class="bento-card card-6">
             <header class="card-header">Focus Playlist</header>
             <div class="playlist-content">
                 <p>Lofi Beats for Study Sessions</p>
-                <div class="music-controls">
-                    <span style="color: var(--color-mid-grey);">[Track Name]</span>
-                    <a href="#" class="control-button">▶ Play</a>
+              <iframe data-testid="embed-iframe" style="border-radius:12px" src="https://open.spotify.com/embed/track/1k0JAiH11gHL9dc5dfQjQr?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
                 </div>
             </div>
         </div>
 
     </div>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Bento Landing Page</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /*
+        * 1. Global Reset & Font
+        */
+        :root {
+            --color-white: #ffffff;
+            --color-light-grey: #f0f2f5;
+            --color-mid-grey: #a0a0a0;
+            --color-dark: #1f2937;
+            --color-accent: #004d99; /* Deep Ocean Blue (UMT Theme) */
+            --border-radius: 12px;
+            --spacing: 16px;
+        }
 
-</body>
-</html>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-light-grey);
+            color: var(--color-dark);
+            min-height: 100vh;
+            padding: var(--spacing);
+        }
+
+        /*
+        * 2. Bento Grid Layout
+        */
+        .bento-grid {
+            display: grid;
+            gap: var(--spacing);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding-bottom: 24px;
+        }
+
+        /* Desktop Layout (Grid) */
+        @media (min-width: 768px) {
+            .bento-grid {
+                grid-template-columns: repeat(3, 1fr);
+                grid-template-rows: auto auto auto auto; 
+            }
+
+            /* Card 1 (Profile): Large Box (2x2) */
+            .card-1 {
+                grid-column: span 2;
+                grid-row: span 2;
+                /* --- KEMAS KINI: BACKGROUND IMAGED DAN GAYA --- */
+                /* GANTI URL DI BAWAH DENGAN url('bg.jpg') JIKA FAIL ADA DALAM FOLDER SAMA */
+                background-image: url('http://googleusercontent.com/image_generation_content/0');
+                background-size: cover;          
+                background-position: center;     
+                background-repeat: no-repeat;    
+                background-color: #333;          /* Fallback Dark Color */
+                color: var(--color-white);       /* Teks putih atas latar belakang gelap */
+                position: relative;              /* Diperlukan untuk overlay */
+                overflow: hidden;
+            }
+            
+            /* Card 2, 3, 4, 5, 7, 6 positioning... (sama seperti sebelum ini) */
+            .card-2 { grid-column: 3 / 4; grid-row: 1 / 2; }
+            .card-3 { grid-column: 3 / 4; grid-row: 2 / 3; }
+            .card-4 { grid-column: 1 / 2; grid-row: 3 / 4; }
+            .card-5 { grid-column: 2 / 3; grid-row: 3 / 4; }
+            .card-7 { grid-column: 3 / 4; grid-row: 3 / 4; }
+            .card-6 { grid-column: 1 / 4; grid-row: 4 / 5; }
+        }
+
+        /*
+        * 3. Card Styling & Theme Tweak (Hover)
+        */
+        .bento-card {
+            background-color: var(--color-white);
+            border-radius: var(--border-radius);
+            padding: var(--spacing) calc(var(--spacing) * 1.5);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            overflow: hidden;
+            min-height: 120px;
+            
+            transition: transform 0.2s ease-out, box-shadow 0.2s ease-out; 
+        }
+
+        .bento-card:hover {
+            transform: translateY(-2px) scale(1.01);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+        }
+
+        @media (min-width: 768px) {
+            .card-1 { min-height: 420px; }
+            .card-6 { min-height: 120px; }
+        }
+
+
+        /* 4. Content Specific Styling */
+
+        /* --- KEMAS KINI: OVERLAY DAN TEKS PUTIH UNTUK CARD 1 --- */
+        
+        /* Overlay untuk memastikan teks boleh dibaca */
+        .card-1::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4); 
+            border-radius: var(--border-radius);
+            z-index: 1; 
+        }
+        
+        /* Set Z-index dan warna teks untuk semua elemen di dalam Card 1 */
+        .card-1 > * {
+            position: relative;
+            z-index: 2;
+        }
+
+        .card-1 .card-header,
+        .card-1 .profile-content h1,
+        .card-1 .profile-content p,
+        .card-1 .tagline,
+        .card-1 .social-links a {
+            color: var(--color-white) !important;
+        }
+        .card-1 .social-links a:hover {
+            color: #d1e4ff !important; /* Warna hover yang lebih terang pada latar belakang gelap */
+        }
+        /* --- TAMAT KEMAS KINI CARD 1 --- */
+
+
+        .card-header {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--color-mid-grey);
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 4px;
+        }
+
+  /* Overlay untuk memastikan teks boleh dibaca */
+.card-1::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* Layer hitam 40% lutsinar */
+    background: rgba(0, 0, 0, 0.4); 
+    border-radius: var(--border-radius);
+    z-index: 1; /* Di bawah teks */
+}
+
+/* Card 1 (Profile): Large Box (2x2) */
+@media (min-width: 768px) {
+    .card-1 {
+        grid-column: span 2;
+        grid-row: span 2;
+        /* --- BACKGROUND IMAGE CODE --- */
+        background-image: url('bg.jpg'); /* 1. Specifies the image file */
+        background-size: cover;          /* 2. Scales the image to cover the entire area */
+        background-position: center;     /* 3. Centers the image within the card */
+        background-repeat: no-repeat;    /* 4. Prevents the image from tiling */
+        background-color: #333;          /* Fallback dark color */
+        position: relative;              /* Essential for the overlay (Step 2) */
+        color: var(--color-white);       /* Ensures text is white for contrast */
+        overflow: hidden;
+    }
+    /* ... other card styles ... */
+}
+    </style>
+</head>
+<body>
+
+   

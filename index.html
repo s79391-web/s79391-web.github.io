@@ -3,294 +3,354 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Focus Companion | Cozy Study</title>
+    <title>Student Bento Landing Page - Final</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
     <style>
-        /* --- CSS STYLES (Lofi Aesthetic) --- */
+        /*
+         * --- CSS Reset and Global Styles ---
+         */
         :root {
-            --bg-color: #f0e4fb;
-            --card-bg: #ffffff;
-            --accent-soft: #ffcfdf;
-            --accent-main: #b8c0ff;
-            --cta-purple: #9d81ba;
-            --text-color: #5d576b;
-            --border-color: #e2e2e2;
-            --font-main: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --color-background: #f8f9fa; /* Soft White/Light Grey */
+            --color-card-bg: #ffffff; /* Pure White for Cards */
+            --color-text-primary: #212529; /* Dark Grey/Black */
+            --color-text-secondary: #6c757d; /* Medium Grey */
+            --color-accent: #0077b6; /* Subtle Blue Accent */
+            --border-radius-base: 12px;
+            --padding-base: 20px;
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
         }
 
         body {
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--color-background);
+            color: var(--color-text-primary);
             min-height: 100vh;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            font-family: var(--font-main);
-        }
-
-        .container {
-            text-align: center;
-            background: var(--card-bg);
-            padding: 2.5rem;
-            border-radius: 40px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            width: 350px;
-        }
-
-        /* The Pet Section */
-        #pet-display {
-            font-size: 80px;
-            margin-bottom: 15px;
-            transition: transform 0.3s ease;
-            display: inline-block;
-        }
-
-        .pulse { animation: pulse-animation 2s infinite; }
-        @keyframes pulse-animation {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.1); }
-            100% { transform: scale(1); }
-        }
-
-        /* Timer Section */
-        #timer-display {
-            font-size: 48px;
-            font-weight: bold;
-            margin-bottom: 25px;
-            letter-spacing: 2px;
-        }
-
-        /* Controls */
-        .controls {
             display: flex;
-            gap: 10px;
             justify-content: center;
-            margin-bottom: 25px;
+            padding: 20px;
         }
 
-        button, .btn-link {
-            border: none;
-            padding: 10px 18px;
-            border-radius: 12px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.2s ease;
-            font-family: var(--font-main);
-            color: var(--text-color);
-            text-decoration: none;
-            display: inline-block;
-        }
-
-        .btn-start { background-color: var(--accent-main); }
-        .btn-pause { background-color: var(--accent-soft); }
-        .btn-reset { background-color: var(--border-color); }
-
-        /* New Column / Try App Button */
-        .cta-section {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 2px dashed var(--bg-color);
-        }
-
-        .btn-try-app {
-            background-color: var(--cta-purple);
-            color: white !important;
+        /*
+         * --- Bento Grid Layout ---
+         */
+        .bento-container {
             width: 100%;
-            box-sizing: border-box;
-            box-shadow: 0 4px 15px rgba(157, 129, 186, 0.3);
-            font-size: 15px;
+            max-width: 1200px; /* Max width for desktop */
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 4 columns on desktop */
+            grid-template-rows: auto;
+            gap: 20px;
+            padding: 0;
         }
 
-        .btn-try-app:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(157, 129, 186, 0.5);
-            filter: brightness(1.1);
-        }
-
-        button:hover { opacity: 0.8; transform: translateY(-1px); }
-
-        /* To-Do List Section */
-        .todo-section {
-            padding-top: 10px;
-            text-align: left;
-        }
-
-        .todo-input-group {
+        .bento-card {
+            background-color: var(--color-card-bg);
+            border-radius: var(--border-radius-base);
+            padding: var(--padding-base);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); /* Soft shadow */
             display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            
+            /* Theme Tweak (3): Subtle Hover Effect */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative; /* Needed for the ::before overlay */
+            z-index: 1;
+        }
+
+        .bento-card:hover {
+            transform: translateY(-2px) scale(1.01); /* Subtle lift and scale */
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Desktop Grid Area Definitions (4 columns) */
+
+        /* Card 1 (Profile): Large box (2x2) */
+        .card-profile {
+            grid-column: span 2;
+            grid-row: span 2;
+            /* === BACKGROUND IMAGE IMPLEMENTATION === */
+            background-image: url('bg.jpg'); /* This sets the image */
+            background-size: cover;          /* Ensures the image fills the area */
+            background-position: center;     /* Centers the image */
+            background-repeat: no-repeat;    /* Prevents tiling */
+            
+            /* Set content color to white for contrast */
+            color: white; 
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Overlay for Profile Card to improve text readability (CRUCIAL) */
+        .card-profile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.2); /* 20% transparent black overlay */
+            border-radius: var(--border-radius-base);
+            z-index: 2; /* Put the overlay above the image, but below the content */
+        }
+
+        /* All content inside the profile card needs a higher z-index to sit above the overlay */
+        .card-profile > * {
+            z-index: 3;
+        }
+        
+        /* Card 2 (Location): Small box (1x1) */
+        .card-location {
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+
+        /* Card 3 (Tech Stack): Medium box (1x1) */
+        .card-tech-stack {
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+
+        /* Card 4 (Case Study): Medium box (1x1) - Column 3 */
+        .card-case-study {
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+
+        /* Card 5 (Hobby): Small box (1x1) - Column 4 */
+        .card-hobby {
+            grid-column: span 1;
+            grid-row: span 1;
+        }
+        
+        /* Card 7 (Reflection/New Card): Wide Box (2x1) */
+        .card-reflection {
+            grid-column: span 2; /* Spans 2 columns (Columns 3 and 4) */
+        }
+
+
+        /* Card 6 (Playlist): Wide box at the bottom (4x1) */
+        .card-playlist {
+            grid-column: span 4;
+        }
+
+
+        /*
+         * --- Card Specific Styling (Placeholders) ---
+         */
+
+        .card-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-text-secondary);
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* === PROFILE CARD TEXT OVERRIDES (FOR IMAGE BACKGROUND) === */
+        .card-profile .card-title {
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .card-profile h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 5px;
+            color: white; /* Changed from --color-accent to white */
+        }
+
+        .card-profile p {
+            font-size: 1.1rem;
+            color: white; /* Changed from --color-text-primary to white */
             margin-bottom: 15px;
         }
 
-        input[type="text"] {
-            flex-grow: 1;
-            padding: 10px;
-            border: 2px solid var(--bg-color);
-            border-radius: 12px 0 0 12px;
-            outline: none;
-            font-family: var(--font-main);
+        /* Update (1): Functional Links styling */
+        .social-links a {
+            color: white; /* Changed from --color-accent to white for image background */
+            text-decoration: none;
+            font-weight: 600;
+            margin-right: 15px;
+            transition: color 0.2s;
         }
 
-        .btn-add { background-color: var(--accent-main); border-radius: 0 12px 12px 0; }
-        
-        ul {
+        .social-links a:hover {
+            color: #ddd; /* Lighter hover effect */
+        }
+        /* === END PROFILE CARD TEXT OVERRIDES === */
+
+        .card-location .location-info {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .card-tech-stack .subject-list {
             list-style: none;
             padding: 0;
-            margin: 0;
-            max-height: 150px;
-            overflow-y: auto;
         }
 
-        li {
-            padding: 10px;
-            background: #fafafa;
-            margin-bottom: 8px;
+        .card-tech-stack .subject-list li {
+            padding: 5px 0;
+            border-bottom: 1px solid #f1f3f5;
+            color: var(--color-text-primary);
+        }
+
+        .card-case-study h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .card-hobby .activity-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+        
+        .card-reflection p {
+            font-style: italic;
+            color: var(--color-text-primary);
+            line-height: 1.6;
+        }
+
+        .card-playlist {
+            text-align: center;
+        }
+
+        .card-playlist .placeholder-text {
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            margin-top: 10px;
+            padding: 0; 
+            background-color: transparent;
             border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            transition: 0.2s;
         }
 
-        li.completed {
-            text-decoration: line-through;
-            opacity: 0.5;
-            background: #eee;
-        }
 
-        .btn-clear { background-color: transparent; color: #a0a0a0; font-size: 11px; margin-top: 10px; width: 100%; text-align: center;}
+        /*
+         * --- Responsive Design (Mobile First Stacking) ---
+         */
+
+        @media (max-width: 768px) {
+            .bento-container {
+                /* On mobile, stack all cards vertically (1 column) */
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .bento-card {
+                /* All cards span the full width of the single column */
+                grid-column: span 1 !important;
+                grid-row: auto !important;
+                transform: none !important; 
+            }
+
+            .bento-card:hover {
+                 transform: none !important;
+                 box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
+            }
+            
+            /* Ensure text contrast holds on mobile */
+            .card-profile .card-title,
+            .card-profile h2,
+            .card-profile p,
+            .card-profile .social-links a {
+                 color: white !important;
+            }
+
+            /* Adjust padding and font size for mobile */
+            :root {
+                --padding-base: 15px;
+            }
+
+            /* Mobile Order adjustment for a better stack flow */
+            .card-profile { order: 1; }
+            .card-location { order: 2; }
+            .card-tech-stack { order: 3; }
+            .card-case-study { order: 4; }
+            .card-hobby { order: 5; }
+            .card-reflection { order: 6; }
+            .card-playlist { order: 7; }
+        }
 
     </style>
 </head>
 <body>
 
-    <div class="container">
-        <div id="pet-display">😴</div>
-        
-        <div id="timer-display">25:00</div>
-        
-        <div class="controls">
-            <button id="startBtn" class="btn-start" onclick="startTimer()">Start</button>
-            <button id="pauseBtn" class="btn-pause" onclick="pauseTimer()" disabled>Pause</button>
-            <button id="resetBtn" class="btn-reset" onclick="resetTimer()">Reset</button>
-        </div>
+    <main class="bento-container">
 
-        <div class="cta-section">
-            <a href="https://s79391-web.github.io/" target="_blank" class="btn-try-app btn-link">
+        <section class="bento-card card-profile">
+            <p class="card-title">Student Profile</p>
+            <h2>FAHIM IKHWAN</h2>
+            <p><strong>Program:</strong> Bachelor of Food Science & Technology</p>
+            <p><strong>Year:</strong> 1rd Year (Semester 1)</p>
+            <div class="social-links">
+                <a href="#" target="_blank">LinkedIn</a>
+                <a href="https://github.com/s80469-Fahim/fahim.github/actions" target="_blank">GitHub</a>
+                <a href="https://www.umt.edu.my/" target="_blank">UMT Portal</a>
+            </div>
+        </section>
+
+        <section class="bento-card card-location">
+            <p class="card-title">Current Location</p>
+            <p class="location-info">Universiti Malaysia Terengganu (UMT)</p>
+            <p>12:31 PM, Monday</p>
+        </section>
+
+        <section class="bento-card card-tech-stack">
+            <p class="card-title">Key Subjects</p>
+            <ul class="subject-list">
+                <li>Food Chemistry (SKG301)</li>
+                <li>Food Microbiology (SKG302)</li>
+                <li>Food Engineering (SKG405)</li>
+                <li>Sensory Evaluation of Food</li>
+            </ul>
+        </section>
+
+        <section class="bento-card card-case-study">
+            <p class="card-title">Recent Work</p>
+            <h3>Lab Experiment: Shelf-Life Extension of Canned Tuna</h3>
+            <p>Investigated the effect of natural antioxidants on lipid oxidation in stored seafood products. Data collection and analysis phase completed.</p>
+        </section>
+
+        <section class="bento-card card-hobby">
+            <p class="card-title">Campus Activity</p>
+            <p class="activity-name">Eco-Friendly Packaging Initiative</p>
+            <p>Team lead for developing biodegradable food container prototypes.</p>
+        </section>
+        
+        <section class="bento-card card-reflection">
+            <p class="card-title">Why Food Tech Matters in Malaysia</p>
+            <p>Sustainable food security is crucial for our future. By optimizing local processing methods, we can reduce waste and improve nutrition.</p>
+        </section>
+     <section class="bento-card card-reflection">
+        
+           <a href="https://s79391-web.github.io/focus-timer-app/app.html" target="_blank" class="btn-try-app btn-link">
                 Try My Focus Timer App ✨
             </a>
-        </div>
 
-        <div class="todo-section">
-            <div class="todo-input-group">
-                <input type="text" id="todoInput" placeholder="Add a study goal...">
-                <button class="btn-add" onclick="addTask()">Add</button>
+        </section>
+
+        
+
+        <section class="bento-card card-playlist">
+            <p class="card-title">Focus Playlist</p>
+            <div class="placeholder-text">
+                <iframe style="border-radius:12px"
+src="https://open.spotify.com/embed/playlist/0vvXsWCC9xrXsKd4FyS8kM?ut
+m_source=generator&theme=0" width="100%" height="152" frameBorder="0"
+allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media;
+fullscreen; picture-in-picture" loading="lazy"></iframe>
             </div>
-            <ul id="todoList"></ul>
-            <button class="btn-clear" onclick="clearTasks()">Clear all tasks</button>
-        </div>
-    </div>
+        </section>
 
-    <audio id="finishSound" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+    </main>
 
-    <script>
-        /* --- TIMER LOGIC --- */
-        let timeLeft = 25 * 60;
-        let timerId = null;
-        const petDisplay = document.getElementById('pet-display');
-        const timerDisplay = document.getElementById('timer-display');
-        const startBtn = document.getElementById('startBtn');
-        const pauseBtn = document.getElementById('pauseBtn');
-        const finishSound = document.getElementById('finishSound');
-
-        function updateDisplay() {
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-
-        function startTimer() {
-            if (timerId !== null) return;
-            petDisplay.textContent = '😎';
-            petDisplay.classList.add('pulse');
-            startBtn.disabled = true;
-            pauseBtn.disabled = false;
-            timerId = setInterval(() => {
-                timeLeft--;
-                updateDisplay();
-                if (timeLeft <= 0) {
-                    clearInterval(timerId);
-                    completeSession();
-                }
-            }, 1000);
-        }
-
-        function pauseTimer() {
-            clearInterval(timerId);
-            timerId = null;
-            petDisplay.textContent = '😴';
-            petDisplay.classList.remove('pulse');
-            startBtn.disabled = false;
-            pauseBtn.disabled = true;
-        }
-
-        function resetTimer() {
-            pauseTimer();
-            timeLeft = 25 * 60;
-            updateDisplay();
-        }
-
-        function completeSession() {
-            petDisplay.textContent = '🥳';
-            petDisplay.classList.remove('pulse');
-            finishSound.play();
-            timerId = null;
-            startBtn.disabled = false;
-            pauseBtn.disabled = true;
-            alert("Focus session complete!");
-        }
-
-        /* --- TO-DO LOGIC --- */
-        const todoInput = document.getElementById('todoInput');
-        const todoList = document.getElementById('todoList');
-        let tasks = JSON.parse(localStorage.getItem('focusTasks')) || [];
-
-        function renderTasks() {
-            todoList.innerHTML = '';
-            tasks.forEach((task, index) => {
-                const li = document.createElement('li');
-                li.textContent = task.text;
-                if (task.completed) li.classList.add('completed');
-                li.onclick = () => toggleTask(index);
-                todoList.appendChild(li);
-            });
-            localStorage.setItem('focusTasks', JSON.stringify(tasks));
-        }
-
-        function addTask() {
-            const text = todoInput.value.trim();
-            if (text) {
-                tasks.push({ text, completed: false });
-                todoInput.value = '';
-                renderTasks();
-            }
-        }
-
-        function toggleTask(index) {
-            tasks[index].completed = !tasks[index].completed;
-            renderTasks();
-        }
-
-        function clearTasks() {
-            tasks = [];
-            renderTasks();
-        }
-
-        todoInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') addTask();
-        });
-
-        // Init
-        updateDisplay();
-        renderTasks();
-    </script>
-<a href="https://s79391-web.github.io/" style="position:absolute; top:20px; left:20px;">← Back to Home</a>
+</body>
 </html>
